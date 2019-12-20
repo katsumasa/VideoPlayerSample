@@ -9,9 +9,7 @@ using UnityEngine.Networking;
 
 // AssetBundleからVideoClipを再生するサンプル
 // 注意事項
-// Unity2018.1.x以降でのみ動作します。
-// Unityの仮想ファイルシステムのパスからは動画を再生出来ない為、
-// Application.persistentDataPathへAssetBundleをコピーしています。
+// Unity2018.1.x以降でのみ動作します。。
 // 雑な作りな為、Android,iOSのみ対応させています。
 public class Sample3 : MonoBehaviour {
     [SerializeField] VideoPlayer videoPlayer;
