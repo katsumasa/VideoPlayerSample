@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using UnityEngine.Video;
+using UnityEngine.Networking;
 
 
 // AssetBundleからVideoClipを再生するサンプル
@@ -10,10 +12,10 @@ using UnityEngine.Video;
 // 雑な作りな為、Android,iOSのみ対応させています。
 public class Sample3 : MonoBehaviour {
     [SerializeField] VideoPlayer videoPlayer;
-    
+
 
     // Use this for initialization
-    void Start () {
+    System.Collections.IEnumerator Start () {
 #if UNITY_ANDROID
         var src = Application.streamingAssetsPath + "/AssetBundle/Android/sample";
         var dst = Application.persistentDataPath + "/AssetBundle/Android/sample";
@@ -25,19 +27,34 @@ public class Sample3 : MonoBehaviour {
 #endif
         if (System.IO.File.Exists(dst) == false)
         {
-            if(System.IO.Directory.Exists(dir) == false)
+            if (System.IO.Directory.Exists(dir) == false)
             {
                 System.IO.Directory.CreateDirectory(dir);
-            }        
-            System.IO.File.Copy(src, dst);
+            }
+            using (UnityWebRequest unityWebRequest = UnityWebRequest.Get(src))
+            { 
+                yield return unityWebRequest.SendWebRequest();
+                System.IO.File.WriteAllBytes(dst, unityWebRequest.downloadHandler.data);
+            }
         }
+
+
+
         var assetBundle = AssetBundle.LoadFromFile(dst);
         videoPlayer.clip = assetBundle.LoadAsset<VideoClip>("Sample.mp4");
-        videoPlayer.Play();        
+        videoPlayer.prepareCompleted += PrepareCB;
+        videoPlayer.Prepare();
+        
 	}
 	
 
 	// Update is called once per frame
 	void Update () {
 	}
+
+    void PrepareCB(VideoPlayer vc)
+    {
+        videoPlayer.prepareCompleted -= PrepareCB;
+        vc.Play();
+    }
 }
