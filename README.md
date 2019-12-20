@@ -3,8 +3,7 @@ UnityEngine.Video.VideoPlayer Sample
 
 ## 概要
 UnityEngine.Video.VideoPlayerを使用した動画ファイルのいくつかのサンプルコードを紹介しています。
-VideoPlayerのスクリプトリファレンス
-https://docs.unity3d.com/ja/2017.4/ScriptReference/Video.VideoPlayer.html
+VideoPlayerのスクリプトリファレンスはこちら(https://docs.unity3d.com/ja/2017.4/ScriptReference/Video.VideoPlayer.html)
 
 ## 動作環境
 下記のUnityで動作確認を行っています。
